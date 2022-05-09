@@ -1,12 +1,23 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import { IContacts } from "../../interfaces/props/IContacts";
+import ContactComponent from "../../components/contacts/ContactComponent";
+
+interface IProps {
+    contacts: IContacts[];
+}
+
+export default function ContactPage (props: any) {
+    return (
+        <div>
+            <ContactComponent {...props} />
+        </div>
+    )
+}
 
 
-
-
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const res = await fetch('http://localhost:5000/contacts');
-    const data = await res.json();
+    const contacts = await res.json();
 
-    return { props: { data } }
+    return { props: { contacts } };
 }
